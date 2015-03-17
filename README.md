@@ -37,53 +37,85 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
+#### options.fonts
 Type: `String`
-Default value: `',  '`
+Default value: `'fonts/fontello'`
 
-A string value that is used to do something with whatever.
+Path to extract font files (*.eot, *.woff, *.svg, *.ttf).
 
-#### options.punctuation
+#### options.styles
 Type: `String`
-Default value: `'.'`
+Default value: `'styles/fontello'`
 
-A string value that is used to do something else with whatever else.
+Path to extract css or sass files. See [__options.scss__](#optionsscss)
+
+#### options.force
+Type: `Boolean`
+Default value: `false`
+
+By default, if the folder specified in options.fonts and options.styles do not exist, the task will throw an error. Setting this option to true will create the directory structure specified. 
+
+#### options.scss
+Type: `Boolean`
+Default value: `false`
+
+Setting this option to true will extract .scss files instead of plain css.
+
+#### options.tmp
+Type: `String`
+Default value: `'.tmp'`
+
+A temporary folder (nothing important inside).
+
+#### options.mergeFactor
+Type: `String`
+Default value: `'code'`
+
+The factor based on which the merge will override the glyphs. For example when set to __code__, it will override existing glyph if it finds new glyph with the same __code__.
+
+#### options.configJson
+Type: `Object`
+Default value: 
+```js
+name: "",
+css_prefix_text: "icon-",
+css_use_suffix: false,
+hinting: true,
+units_per_em: 1000,
+ascent: 850
+```
+
+Basic fontello config.json file structure that will be used to download fonts.
 
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+In this example, the default options are set to combine `config1.json` and `config2.json` files placed in project root directory. Merge would be based on `code` value. The fonts will be downloaded to `fonts/fontello` directory and the styles together with combined config file to `styles/fontello`.
 
 ```js
 grunt.initConfig({
   fontello_merge: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
+    src: ['config1.json', 'config2.json']
   },
 });
 ```
 
 #### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+Say you don't need the styles, just the fonts. You can do it by changing the styles path to `false`. It will place styles in temporary folder and purge it at the end of task.
 
 ```js
 grunt.initConfig({
   fontello_merge: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
+      styles: false
     },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
+    src: ['config1.json', 'config2.json']
   },
 });
 ```
 
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
-
 ## Release History
-_(Nothing yet)_
+###Version 0.1.0
+Plugin was born! Hooray!
+
+---
