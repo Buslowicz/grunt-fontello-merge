@@ -23,11 +23,9 @@ module.exports = function(grunt) {
         force: true,
         tmp: 'tmp/styles'
       },
-      dist: {
-        src: [
-          'sample_config.json'
-        ]
-      }
+      src: [
+        'sample_config.json'
+      ]
     }
   });
 
