@@ -1,0 +1,26 @@
+{
+  "name": "grunt-fontello-merge",
+  "version": "1.0.0",
+  "description": "Merge multiple fontello config files based on icon code and download the bundle font set",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Draccoz/grunt-fontello-merge.git"
+  },
+  "keywords": [
+    "grunt",
+    "fontello",
+    "multi",
+    "config"
+  ],
+  "author": "Daniel Busłowicz",
+  "license": "GNU General Public License v2.0",
+  "bugs": {
+    "url": "https://github.com/Draccoz/grunt-fontello-merge/issues"
+  },
+  "homepage": "https://github.com/Draccoz/grunt-fontello-merge",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-fontello": "^0.1.3"
+  }
+}
