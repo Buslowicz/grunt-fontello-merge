@@ -28,8 +28,10 @@ module.exports = function (grunt) {
     // Task options & defaults
     var options = this.options({
       fonts: 'fonts/fontello',
+      styles: 'styles/fontello',
       tmp: '.tmp',
       force: false,
+      scss: false,
       mergeFactor: 'code',
       configJson: defaultConfigJson
     });
@@ -41,8 +43,9 @@ module.exports = function (grunt) {
         dist: {
           options: {
             force: options.force,
+            scss: options.scss,
             fonts: options.fonts,
-            styles: options.tmp,
+            styles: options.styles,
             config: path.join(options.tmp, 'fontello.config.json')
           }
         }
