@@ -14,7 +14,7 @@ module.exports = function (grunt) {
     var path = require('path');
 
     // Default config.json settings
-    var fontelloDefaults = {
+    var defaultConfigJson = {
       "name": "",
       "css_prefix_text": "icon-",
       "css_use_suffix": false,
@@ -28,7 +28,10 @@ module.exports = function (grunt) {
     // Task options & defaults
     var options = this.options({
       fonts: 'fonts/fontello',
-      tmp: '.tmp'
+      tmp: '.tmp',
+      force: false,
+      mergeFactor: 'code',
+      configJson: defaultConfigJson
     });
 
 
@@ -37,6 +40,7 @@ module.exports = function (grunt) {
       fontello: {
         dist: {
           options: {
+            force: options.force,
             fonts: options.fonts,
             styles: options.tmp,
             config: path.join(options.tmp, 'fontello.config.json')
@@ -47,26 +51,28 @@ module.exports = function (grunt) {
 
 
     // Override default fontello config.json
-    for (var attr in options.fontello) {
-      if (!options.fontello.hasOwnProperty(attr)) {
+    for (var attr in options.configJson) {
+      if (!options.configJson.hasOwnProperty(attr)) {
         continue;
       }
-      fontelloDefaults[attr] = options.fontello[attr];
+      defaultConfigJson[attr] = options.configJson[attr];
     }
 
 
-    var glyphs = fontelloDefaults.glyphs;
+    // A bit of caching
+    var glyphs = defaultConfigJson.glyphs;
+    var mf = options.mergeFactor;
     var srcList = this.files[0].src;  // list of config files to merge
 
 
     // Looping over configs to merge them together
     srcList.forEach(function (el) {
       var currentConfig = require(path.resolve(el));
-      var codesMap = {};
+      var map = {};
 
       // First we need to get list of all icon codes
       glyphs.forEach(function (el, index) {
-        codesMap[el.code] = {
+        map[el[mf]] = {
           glyph: el,
           index: index
         };
@@ -74,8 +80,9 @@ module.exports = function (grunt) {
 
       // Now the proper merge
       currentConfig.glyphs.forEach(function (el) {
-        if (codesMap[el.code]) {                               // If there is an icon with that code, override it
-          glyphs.splice(codesMap[el.code].index, 1, el);
+        var mappedElement = map[el[mf]];
+        if (mappedElement) {                               // If there is an icon with that code, override it
+          glyphs.splice(mappedElement.index, 1, el);
         } else {                                               // Else append it to the end
           glyphs.push(el);
         }
@@ -84,7 +91,7 @@ module.exports = function (grunt) {
 
 
     // Write new config to file (temporarily) and run the fontello task
-    grunt.file.write('.tmp/fontello.config.json', JSON.stringify(fontelloDefaults));
+    grunt.file.write(path.join(options.tmp, 'fontello.config.json'), JSON.stringify(defaultConfigJson));
     grunt.task.run('fontello:dist');
   });
 
