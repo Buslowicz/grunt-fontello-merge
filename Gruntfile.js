@@ -13,15 +13,15 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     clean: {
-      fonts: ['fonts'],
-      temp: ['tmp']
+      fonts: ['tmp/fonts'],
+      temp: ['tmp/styles']
     },
 
     fontello_merge: {
       options: {
-        fonts: 'fonts', // Where to extract the fonts,
+        fonts: 'tmp/fonts', // Where to extract the fonts,
         force: true,
-        tmp: 'tmp'
+        tmp: 'tmp/styles'
       },
       dist: {
         src: [
