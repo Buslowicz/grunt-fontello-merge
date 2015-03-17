@@ -10,6 +10,7 @@
 
 module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-fontello');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.registerMultiTask('fontello_merge', 'Merge multiple fontello config files based on icon code and download the bundle font set', function () {
     var path = require('path');
 
@@ -45,10 +46,13 @@ module.exports = function (grunt) {
             force: options.force,
             scss: options.scss,
             fonts: options.fonts,
-            styles: options.styles,
+            styles: options.styles || options.tmp,
             config: path.join(options.tmp, 'fontello.config.json')
           }
         }
+      },
+      clean: {
+        fontello_merge: [options.tmp]
       }
     });
 
@@ -95,7 +99,7 @@ module.exports = function (grunt) {
 
     // Write new config to file (temporarily) and run the fontello task
     grunt.file.write(path.join(options.tmp, 'fontello.config.json'), JSON.stringify(defaultConfigJson));
-    grunt.task.run('fontello:dist');
+    grunt.task.run('fontello:dist', 'clean:fontello_merge');
   });
 
 };

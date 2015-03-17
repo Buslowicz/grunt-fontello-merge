@@ -13,15 +13,15 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     clean: {
-      fonts: ['tmp/fonts'],
-      temp: ['tmp/styles']
+      cleanup: ['tmp']
     },
 
     fontello_merge: {
       options: {
         fonts: 'tmp/fonts', // Where to extract the fonts,
+        styles: 'tmp/styles',
         force: true,
-        tmp: 'tmp/styles'
+        tmp: 'tmp/cache'
       },
       src: [
         'sample_config.json'
@@ -36,6 +36,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['clean:fonts', 'fontello_merge', 'clean:temp']);
+  grunt.registerTask('default', ['clean', 'fontello_merge']);
 
 };
