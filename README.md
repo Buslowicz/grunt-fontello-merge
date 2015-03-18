@@ -1,6 +1,6 @@
 # grunt-fontello-merge
 
-> Merge multiple fontello config files based on icon code and download the bundle font set
+> Merge multiple fontello config files
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
