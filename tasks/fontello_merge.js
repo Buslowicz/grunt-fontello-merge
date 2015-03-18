@@ -9,46 +9,20 @@
 'use strict';
 
 module.exports = function (grunt) {
-  grunt.registerMultiTask('fontello_merge', 'Merge multiple fontello config files based on icon code', function () {
-    var path = require('path');
+  var path = require('path');
 
-    // Default config.json settings
-    var defaultConfigJson = {
-      "name": "",
-      "css_prefix_text": "icon-",
-      "css_use_suffix": false,
-      "hinting": true,
-      "units_per_em": 1000,
-      "ascent": 850,
-      "glyphs": []
-    };
-
-
-    // Task options & defaults
-    var options = this.options({
-      mergeFactor: 'code',
-      configJson: defaultConfigJson
-    });
-
-
-    // Override default fontello config.json
-    for (var attr in options.configJson) {
-      if (!options.configJson.hasOwnProperty(attr)) {
-        continue;
-      }
-      defaultConfigJson[attr] = options.configJson[attr];
-    }
-
-
+  function doMerge(file) {
     // A bit of caching
-    var glyphs = defaultConfigJson.glyphs;
+    var options = this;
     var mf = options.mergeFactor;
-    var srcList = this.files[0].src;  // list of config files to merge
+    var srcList = file.src;  // list of config files to merge
+
+    var glyphs = [];
 
 
     // Looping over configs to merge them together
     srcList.forEach(function (el) {
-      var currentConfig = require(path.resolve(el)).glyphs;
+      var currentConfig = grunt.file.readJSON(path.resolve(el)).glyphs;
       var map = {};
 
       // First we need to get list of all icon codes
@@ -71,12 +45,45 @@ module.exports = function (grunt) {
     });
 
 
-    var filepath = this.files[0].dest || 'fontello.config.json';
+    var filepath = file.dest;
 
     // Write new config to file (temporarily) and run the fontello task
-    grunt.file.write(filepath, JSON.stringify(defaultConfigJson));
+    options.configJson.glyphs = glyphs;
+    grunt.file.write(filepath, JSON.stringify(options.configJson));
 
-    grunt.log.writeln('Merged config file saved as ', filepath);
+    grunt.log.writeln('`' + filepath + '` created');
+  }
+
+  grunt.registerMultiTask('fontello_merge', 'Merge multiple fontello config files based on icon code', function () {
+
+    // Default config.json settings
+    var defaultConfigJson = {
+      "name": "",
+      "css_prefix_text": "icon-",
+      "css_use_suffix": false,
+      "hinting": true,
+      "units_per_em": 1000,
+      "ascent": 850
+    };
+
+
+    // Task options & defaults
+    var options = this.options({
+      mergeFactor: 'code',
+      configJson: defaultConfigJson
+    });
+
+
+    // Override default fontello config.json
+    for (var attr in options.configJson) {
+      if (!options.configJson.hasOwnProperty(attr)) {
+        continue;
+      }
+      defaultConfigJson[attr] = options.configJson[attr];
+    }
+
+
+    this.files.forEach(doMerge.bind(options));
   });
 
 };
