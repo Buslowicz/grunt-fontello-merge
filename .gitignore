@@ -1,5 +1,4 @@
 .idea/
-logs
-#*.log
-.grunt
 node_modules
+npm-debug.log
+tmp
