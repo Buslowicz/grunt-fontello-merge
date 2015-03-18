@@ -30,42 +30,12 @@ grunt.initConfig({
     },
     your_target: {
       // Target-specific file lists and/or options go here.
-    },
-  },
+    }
+  }
 });
 ```
 
 ### Options
-
-#### options.fonts
-Type: `String`
-Default value: `'fonts/fontello'`
-
-Path to extract font files (*.eot, *.woff, *.svg, *.ttf).
-
-#### options.styles
-Type: `String`
-Default value: `'styles/fontello'`
-
-Path to extract css or sass files. See [__options.scss__](#optionsscss)
-
-#### options.force
-Type: `Boolean`
-Default value: `false`
-
-By default, if the folder specified in options.fonts and options.styles do not exist, the task will throw an error. Setting this option to true will create the directory structure specified. 
-
-#### options.scss
-Type: `Boolean`
-Default value: `false`
-
-Setting this option to true will extract .scss files instead of plain css.
-
-#### options.tmp
-Type: `String`
-Default value: `'.tmp'`
-
-A temporary folder (nothing important inside).
 
 #### options.mergeFactor
 Type: `String`
@@ -75,7 +45,7 @@ The factor based on which the merge will override the glyphs. For example when s
 
 #### options.configJson
 Type: `Object`
-Default value: 
+Default value:
 ```js
 name: "",
 css_prefix_text: "icon-",
@@ -90,34 +60,48 @@ Basic fontello config.json file structure that will be used to download fonts.
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are set to combine `config1.json` and `config2.json` files placed in project root directory. Merge would be based on `code` value. The fonts will be downloaded to `fonts/fontello` directory and the styles together with combined config file to `styles/fontello`.
+In this example, the default options are set to combine `config1.json` and `config2.json` files placed in project root directory. Merge would be based on `code` value. The result (merged) file will be named `merged.json` and will be saved in project root directory.
 
 ```js
 grunt.initConfig({
   fontello_merge: {
-    src: ['config1.json', 'config2.json']
-  },
+    target_name: {
+      files: {
+        'merged.json': ['config1.json', 'config2.json']
+      }
+    }
+  }
 });
 ```
 
-#### Custom Options
-Say you don't need the styles, just the fonts. You can do it by changing the styles path to `false`. It will place styles in temporary folder and purge it at the end of task.
+#### Merge by icon CSS name
+If you prefer to use CSS classes provided by fontello rather than icon codes, you can change the merge factor to use the name instead of codes.
 
 ```js
 grunt.initConfig({
   fontello_merge: {
-    options: {
-      styles: false
-    },
-    src: ['config1.json', 'config2.json']
-  },
+    target_name: {
+      options: {
+        mergeFactor: 'css'
+      },
+      files: {
+        'merged.json': ['config1.json', 'config2.json']
+      }
+    }
+  }
 });
 ```
 
 ## Release History
+
+###Version 0.2.0
+* Removed external modules to make plugin more atomic and universal
+* Result config.json file can now be kept
+* Added support for multiple destination paths
+* Added unit testing
+
 ###Version 0.1.0
 * Plugin was born! Hooray!
-
 
 ##Plug
 Development was sponsored by [Dennis Publishing](http://dennis.co.uk)
