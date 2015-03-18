@@ -1,6 +1,6 @@
 {
   "name": "grunt-fontello-merge",
-  "description": "Merge multiple fontello config files based on icon code and download the bundle font set",
+  "description": "Merge multiple fontello config files",
   "version": "0.2.0",
   "homepage": "https://github.com/Draccoz/grunt-fontello-merge",
   "author": {
