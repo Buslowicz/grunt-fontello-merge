@@ -48,9 +48,19 @@ exports.fontello_merge = {
     test.deepEqual(actual.glyphs, expected.glyphs, 'Conflicts should be resolved , non conflicted glyphs should append');
 
     test.done();
+  },
+  merge_by_css: function(test) {
+    var expected, actual;
+    test.expect(2);
+
+    actual = grunt.file.readJSON('test/tmp/name_ac.json');
+    expected = grunt.file.readJSON('test/expected/name_ac.json');
+    test.deepEqual(actual.glyphs, expected.glyphs, 'Further configs should override any conflicted glyphs');
+
+    actual = grunt.file.readJSON('test/tmp/name_ad.json');
+    expected = grunt.file.readJSON('test/expected/name_ad.json');
+    test.deepEqual(actual.glyphs, expected.glyphs, 'Conflicts should be resolved , non conflicted glyphs should append');
+
+    test.done();
   }
-  //merge_by_css: function(test) {
-  //  // TODO: merge by css examples and tests
-  //  test.done();
-  //}
 };

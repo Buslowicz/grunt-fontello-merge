@@ -24,12 +24,16 @@ module.exports = function(grunt) {
           'test/tmp/code_ac.json': ['test/examples/a.json', 'test/examples/c.json'],
           'test/tmp/code_ad.json': ['test/examples/a.json', 'test/examples/d.json']
         }
+      },
+      merge_by_css: {
+        options: {
+          mergeFactor: 'css'
+        },
+        files: {
+          'test/tmp/name_ac.json': ['test/examples/a.json', 'test/examples/c2.json'],
+          'test/tmp/name_ad.json': ['test/examples/a.json', 'test/examples/d2.json']
+        }
       }
-      //merge_by_css: {
-      //  files: {
-      //    'output.json': ['sample_config.json']
-      //  }
-      //}
     },
 
     // Unit tests.
@@ -48,7 +52,7 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'fontello_merge:merge_by_code', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'fontello_merge', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['test']);

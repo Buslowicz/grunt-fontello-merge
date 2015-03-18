@@ -1,0 +1,16 @@
+{
+  "glyphs": [
+    {
+      "uid": "c64623255a4a7c72436b199b05296c4f",
+      "css": "emo-happy",
+      "code": 59392,
+      "src": "fontelico"
+    },
+    {
+      "uid": "4bb2045a2aca451705fe8a23c4a576ab",
+      "css": "emo-wink",
+      "code": 59394,
+      "src": "fontelico"
+    }
+  ]
+}
