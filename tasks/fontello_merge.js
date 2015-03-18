@@ -9,9 +9,7 @@
 'use strict';
 
 module.exports = function (grunt) {
-  grunt.loadNpmTasks('grunt-fontello');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.registerMultiTask('fontello_merge', 'Merge multiple fontello config files based on icon code and download the bundle font set', function () {
+  grunt.registerMultiTask('fontello_merge', 'Merge multiple fontello config files based on icon code', function () {
     var path = require('path');
 
     // Default config.json settings
@@ -28,32 +26,8 @@ module.exports = function (grunt) {
 
     // Task options & defaults
     var options = this.options({
-      fonts: 'fonts/fontello',
-      styles: 'styles/fontello',
-      tmp: '.tmp',
-      force: false,
-      scss: false,
       mergeFactor: 'code',
       configJson: defaultConfigJson
-    });
-
-
-    // Setting up fontello task
-    grunt.config.merge({
-      fontello: {
-        dist: {
-          options: {
-            force: options.force,
-            scss: options.scss,
-            fonts: options.fonts,
-            styles: options.styles || options.tmp,
-            config: path.join(options.tmp, 'fontello.config.json')
-          }
-        }
-      },
-      clean: {
-        fontello_merge: [options.tmp]
-      }
     });
 
 
@@ -74,7 +48,7 @@ module.exports = function (grunt) {
 
     // Looping over configs to merge them together
     srcList.forEach(function (el) {
-      var currentConfig = require(path.resolve(el));
+      var currentConfig = require(path.resolve(el)).glyphs;
       var map = {};
 
       // First we need to get list of all icon codes
@@ -86,7 +60,7 @@ module.exports = function (grunt) {
       });
 
       // Now the proper merge
-      currentConfig.glyphs.forEach(function (el) {
+      currentConfig.forEach(function (el) {
         var mappedElement = map[el[mf]];
         if (mappedElement) {                               // If there is an icon with that code, override it
           glyphs.splice(mappedElement.index, 1, el);
@@ -97,9 +71,12 @@ module.exports = function (grunt) {
     });
 
 
+    var filepath = this.files[0].dest || 'fontello.config.json';
+
     // Write new config to file (temporarily) and run the fontello task
-    grunt.file.write(path.join(options.tmp, 'fontello.config.json'), JSON.stringify(defaultConfigJson));
-    grunt.task.run('fontello:dist', 'clean:fontello_merge');
+    grunt.file.write(filepath, JSON.stringify(defaultConfigJson));
+
+    grunt.log.writeln('Merged config file saved as ', filepath);
   });
 
 };

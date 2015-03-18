@@ -18,14 +18,12 @@ module.exports = function(grunt) {
 
     fontello_merge: {
       options: {
-        fonts: 'tmp/fonts', // Where to extract the fonts,
-        styles: 'tmp/styles',
-        force: true,
-        tmp: 'tmp/cache'
       },
-      src: [
-        'sample_config.json'
-      ]
+      test: {
+        files: {
+          'output.json': ['sample_config.json']
+        }
+      }
     }
   });
 
