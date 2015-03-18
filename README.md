@@ -116,6 +116,8 @@ grunt.initConfig({
 
 ## Release History
 ###Version 0.1.0
-Plugin was born! Hooray!
+* Plugin was born! Hooray!
 
----
+
+##Plug
+Development was sponsored by [Dennis Publishing](http://dennis.co.uk)
