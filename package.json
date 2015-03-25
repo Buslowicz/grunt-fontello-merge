@@ -1,7 +1,7 @@
 {
   "name": "grunt-fontello-merge",
   "description": "Merge multiple fontello config files",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "homepage": "https://github.com/Draccoz/grunt-fontello-merge",
   "author": {
     "name": "Daniel Busłowicz",

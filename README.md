@@ -94,14 +94,22 @@ grunt.initConfig({
 
 ## Release History
 
-###Version 0.2.0
+### Version 0.2.3
+* README update
+
+### Versions 0.2.1 and 0.2.2
+Due to some issues with npm, latest pointer was not changed to updated version (was frozen on 0.1.0).
+Versions 0.2.1 and 0.2.2 were meant to fix that issue (0.2.1 failed to do so). Nothing else was changed.
+
+### Version 0.2.0
 * Removed external modules to make plugin more atomic and universal
 * Result config.json file can now be kept
 * Added support for multiple destination paths
 * Added unit testing
 
-###Version 0.1.0
+### Version 0.1.0
 * Plugin was born! Hooray!
 
-##Plug
+
+## Plug
 Development was sponsored by [Dennis Publishing](http://dennis.co.uk)
